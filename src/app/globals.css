@@ -1,26 +1,111 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #050608;
+  --foreground: #f1f3f5;
+  --muted: #8d95a6;
+  --accent: #7f5af0;
+  --accent-soft: rgba(127, 90, 240, 0.35);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #f7f7fa;
+    --foreground: #1c1f2a;
+    --muted: #3a3f50;
+    --accent: #5f3ad7;
+    --accent-soft: rgba(95, 58, 215, 0.15);
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background: radial-gradient(circle at 20% 20%, var(--accent-soft), transparent 50%),
+    radial-gradient(circle at 80% 0%, rgba(60, 174, 212, 0.25), transparent 45%),
+    var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+}
+
+@layer utilities {
+  .glass-block {
+    position: relative;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    box-shadow:
+      inset 0 1px rgba(255, 255, 255, 0.28),
+      0 22px 60px -32px rgba(127, 90, 240, 0.45);
+    overflow: hidden;
+  }
+
+  .glass-block::before,
+  .glass-block::after {
+    content: "";
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(0);
+    opacity: 0.75;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+  }
+
+  .glass-block::before {
+    inset: -30% auto auto -20%;
+    width: 60%;
+    height: 70%;
+    background: radial-gradient(circle, rgba(127, 90, 240, 0.45) 0%, transparent 70%);
+  }
+
+  .glass-block::after {
+    inset: auto -25% -35% auto;
+    width: 55%;
+    height: 65%;
+    background: radial-gradient(circle, rgba(60, 174, 212, 0.45) 0%, transparent 70%);
+  }
+
+  .glass-block:hover::before {
+    transform: translate3d(12px, -10px, 0) scale(1.05);
+    opacity: 0.9;
+  }
+
+  .glass-block:hover::after {
+    transform: translate3d(-12px, 10px, 0) scale(1.05);
+    opacity: 0.9;
+  }
+
+  .glass-header {
+    position: relative;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background:
+      linear-gradient(150deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03))
+        padding-box,
+      linear-gradient(120deg, rgba(127, 90, 240, 0.45), rgba(60, 174, 212, 0.35)) border-box;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    overflow: hidden;
+  }
+
+  .glass-header::after {
+    content: "";
+    position: absolute;
+    inset: 40% -40% -60% 45%;
+    border-radius: 999px;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.12), transparent 70%);
+    opacity: 0.7;
+  }
 }
