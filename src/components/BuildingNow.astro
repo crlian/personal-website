@@ -1,0 +1,200 @@
+---
+import type { CurrentProject } from '../data/portfolio';
+
+interface Props {
+  project: CurrentProject;
+}
+
+const { project } = Astro.props;
+---
+
+<div class="building-now">
+  <div class="building-header">
+    <div class="live-indicator">
+      <span class="live-dot"></span>
+      IN PROGRESS
+    </div>
+  </div>
+
+  <h2 class="building-title">{project.name}</h2>
+  <p class="building-description">{project.description}</p>
+
+  <div class="building-status">
+    <div class="status-badge">{project.status}</div>
+  </div>
+
+  <div class="building-stack">
+    <div class="stack-label">STACK</div>
+    <div class="stack-tags">
+      {project.stack.map((tech) => (
+        <span class="stack-tag">{tech}</span>
+      ))}
+    </div>
+  </div>
+
+  <div class="building-goal">
+    <span class="goal-label">Target Launch:</span>
+    <span class="goal-value">{project.launchGoal}</span>
+  </div>
+
+  {project.liveUrl && (
+    <a href={project.liveUrl} class="building-link" target="_blank" rel="noopener noreferrer">
+      View Live →
+    </a>
+  )}
+</div>
+
+<style>
+  .building-now {
+    border: 1px solid var(--color-black);
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .building-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--color-black);
+    padding-bottom: 1rem;
+  }
+
+  .live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .live-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-blue);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .building-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+  }
+
+  .building-description {
+    margin: 0 0 1.5rem 0;
+    color: #333;
+    line-height: 1.5;
+  }
+
+  .building-status {
+    margin-bottom: 1.5rem;
+  }
+
+  .status-badge {
+    display: inline-block;
+    border: 1px solid var(--color-black);
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .building-stack {
+    margin-bottom: 1.5rem;
+  }
+
+  .stack-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .stack-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .stack-tag {
+    border: 1px solid var(--color-black);
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .building-goal {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .goal-label {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+
+  .goal-value {
+    flex: 1;
+  }
+
+  .building-link {
+    display: inline-block;
+    border: 1px solid var(--color-black);
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    color: var(--color-black);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    margin-top: 0.5rem;
+  }
+
+  .building-link:hover {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
+
+  @media (max-width: 768px) {
+    .building-now {
+      padding: 1.5rem;
+    }
+
+    .building-title {
+      font-size: 1.5rem;
+    }
+
+    .building-stack {
+      flex-wrap: wrap;
+    }
+
+    .stack-tags {
+      flex-wrap: wrap;
+    }
+
+    .building-link {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>

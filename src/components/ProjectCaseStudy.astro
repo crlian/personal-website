@@ -1,0 +1,630 @@
+---
+import type { Project } from '../data/portfolio';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+
+const statusColors: Record<string, string> = {
+  live: '#1e3a8a',
+  beta: '#dc2626',
+  archived: '#666'
+};
+
+const statusLabel: Record<string, string> = {
+  live: 'LIVE',
+  beta: 'BETA',
+  archived: 'ARCHIVED',
+  building: 'BUILDING'
+};
+
+const roleLabel: Record<string, string> = {
+  founder: 'Founder',
+  'co-founder': 'Co-founder',
+  builder: 'Builder',
+  'technical-lead': 'Tech Lead'
+};
+---
+
+<article class={`project-case-study status-${project.status}`}>
+  <!-- Header -->
+  <div class="case-study-header">
+    <div class="header-top">
+      <h2 class="project-title">{project.title}</h2>
+      <div class="status-badges">
+        <span
+          class="status-badge"
+          style={`background-color: ${statusColors[project.status]}`}
+        >
+          {statusLabel[project.status]}
+        </span>
+        <span class="role-badge">{roleLabel[project.role]}</span>
+      </div>
+    </div>
+    <p class="project-description">{project.description}</p>
+  </div>
+
+  <!-- Problem & Solution -->
+  <div class="case-study-section">
+    <div class="section-grid">
+      <div class="section-block">
+        <h3 class="section-title">Problem</h3>
+        <p class="section-content">{project.problem}</p>
+      </div>
+      <div class="section-block">
+        <h3 class="section-title">Solution</h3>
+        <p class="section-content">{project.solution}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech Stack -->
+  <div class="case-study-section">
+    <h3 class="section-title full-width">Tech Stack</h3>
+    <div class="stack-grid">
+      {project.techStack.frontend && (
+        <div class="stack-column">
+          <div class="stack-category">Frontend</div>
+          <ul class="stack-list">
+            {project.techStack.frontend.map((tech) => (
+              <li class="stack-item">{tech}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {project.techStack.backend && (
+        <div class="stack-column">
+          <div class="stack-category">Backend</div>
+          <ul class="stack-list">
+            {project.techStack.backend.map((tech) => (
+              <li class="stack-item">{tech}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {project.techStack.infrastructure && (
+        <div class="stack-column">
+          <div class="stack-category">Infrastructure</div>
+          <ul class="stack-list">
+            {project.techStack.infrastructure.map((tech) => (
+              <li class="stack-item">{tech}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {project.techStack.database && (
+        <div class="stack-column">
+          <div class="stack-category">Database</div>
+          <ul class="stack-list">
+            {project.techStack.database.map((tech) => (
+              <li class="stack-item">{tech}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- Architecture -->
+  <div class="case-study-section">
+    <h3 class="section-title full-width">Architecture</h3>
+    <div class="architecture-content">
+      <div class="arch-item">
+        <div class="arch-label">Approach</div>
+        <p>{project.architecture.approach}</p>
+      </div>
+      <div class="arch-item">
+        <div class="arch-label">Scalability</div>
+        <p>{project.architecture.scalability}</p>
+      </div>
+      <div class="arch-item">
+        <div class="arch-label">Deployment</div>
+        <p>{project.architecture.deployment}</p>
+      </div>
+      {project.architecture.highlights.length > 0 && (
+        <div class="arch-item">
+          <div class="arch-label">Highlights</div>
+          <ul class="highlights-list">
+            {project.architecture.highlights.map((highlight) => (
+              <li>{highlight}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- Metrics & Timeline -->
+  <div class="case-study-section">
+    <div class="metrics-timeline-grid">
+      <div class="metrics-block">
+        <h3 class="section-title">Metrics</h3>
+        <div class="metrics-list">
+          {project.metrics.users && (
+            <div class="metric-item">
+              <span class="metric-label">Users:</span>
+              <span class="metric-value">{project.metrics.users.toLocaleString()}</span>
+            </div>
+          )}
+          {project.metrics.revenue && (
+            <div class="metric-item">
+              <span class="metric-label">Revenue:</span>
+              <span class="metric-value">{project.metrics.revenue}</span>
+            </div>
+          )}
+          {project.metrics.conversion && (
+            <div class="metric-item">
+              <span class="metric-label">Conversion:</span>
+              <span class="metric-value">{project.metrics.conversion}</span>
+            </div>
+          )}
+          {project.metrics.growth && (
+            <div class="metric-item">
+              <span class="metric-label">Growth:</span>
+              <span class="metric-value">{project.metrics.growth}</span>
+            </div>
+          )}
+          {project.metrics.engagement && (
+            <div class="metric-item">
+              <span class="metric-label">Engagement:</span>
+              <span class="metric-value">{project.metrics.engagement}</span>
+            </div>
+          )}
+          {project.metrics.performance && (
+            <div class="metric-item">
+              <span class="metric-label">Performance:</span>
+              <span class="metric-value">{project.metrics.performance}</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div class="timeline-block">
+        <h3 class="section-title">Timeline</h3>
+        <div class="timeline-list">
+          <div class="timeline-item">
+            <span class="timeline-label">MVP Duration:</span>
+            <span class="timeline-value">{project.timeline.mvpDuration}</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-label">Total Duration:</span>
+            <span class="timeline-value">{project.timeline.totalDuration}</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-label">Launch Date:</span>
+            <span class="timeline-value">{new Date(project.timeline.launchDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Learnings -->
+  {(project.learnings.technical.length > 0 || project.learnings.business.length > 0) && (
+    <div class="case-study-section">
+      <details class="learnings-details">
+        <summary class="learnings-summary">
+          <h3 class="section-title">What I Learned</h3>
+          <span class="expand-icon">+</span>
+        </summary>
+        <div class="learnings-content">
+          {project.learnings.technical.length > 0 && (
+            <div class="learning-category">
+              <h4 class="learning-category-title">Technical</h4>
+              <ul class="learning-list">
+                {project.learnings.technical.map((learning) => (
+                  <li>{learning}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {project.learnings.business.length > 0 && (
+            <div class="learning-category">
+              <h4 class="learning-category-title">Business / Product</h4>
+              <ul class="learning-list">
+                {project.learnings.business.map((learning) => (
+                  <li>{learning}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </details>
+    </div>
+  )}
+
+  <!-- Links -->
+  <div class="case-study-footer">
+    {project.demoUrl && (
+      <a href={project.demoUrl} class="footer-link" target="_blank" rel="noopener noreferrer">
+        View Live Demo →
+      </a>
+    )}
+    {project.githubUrl && (
+      <a href={project.githubUrl} class="footer-link" target="_blank" rel="noopener noreferrer">
+        View on GitHub →
+      </a>
+    )}
+  </div>
+</article>
+
+<style>
+  .project-case-study {
+    border: 1px solid var(--color-black);
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .case-study-header {
+    border-bottom: 1px solid var(--color-black);
+    padding-bottom: 1.5rem;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .project-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .status-badges {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-white);
+    border: 1px solid;
+  }
+
+  .status-badge.status-live {
+    background-color: var(--color-blue);
+    border-color: var(--color-blue);
+  }
+
+  .role-badge {
+    border: 1px solid var(--color-black);
+    padding: 0.4rem 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .project-description {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  .case-study-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .section-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+    color: var(--color-black);
+  }
+
+  .section-title.full-width {
+    width: 100%;
+  }
+
+  .section-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .section-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .section-content {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #444;
+  }
+
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .stack-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .stack-category {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-black);
+  }
+
+  .stack-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .stack-item {
+    font-size: 0.9rem;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .stack-item::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--color-blue);
+  }
+
+  .architecture-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .arch-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .arch-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-black);
+  }
+
+  .arch-item p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #444;
+  }
+
+  .highlights-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .highlights-list li {
+    font-size: 0.95rem;
+    padding-left: 1rem;
+    position: relative;
+    color: #444;
+  }
+
+  .highlights-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-blue);
+    font-weight: bold;
+  }
+
+  .metrics-timeline-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .metrics-block,
+  .timeline-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .metrics-list,
+  .timeline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .metric-item,
+  .timeline-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid #eee;
+  }
+
+  .metric-label,
+  .timeline-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #666;
+  }
+
+  .metric-value,
+  .timeline-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-black);
+  }
+
+  .learnings-details {
+    cursor: pointer;
+  }
+
+  .learnings-details[open] .expand-icon {
+    transform: rotate(45deg);
+  }
+
+  .learnings-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    user-select: none;
+  }
+
+  .learnings-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .expand-icon {
+    font-size: 1.5rem;
+    font-weight: 300;
+    transition: transform 0.2s ease;
+  }
+
+  .learnings-content {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .learning-category {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .learning-category-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  .learning-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .learning-list li {
+    font-size: 0.9rem;
+    padding-left: 1rem;
+    position: relative;
+    color: #444;
+    line-height: 1.5;
+  }
+
+  .learning-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--color-blue);
+  }
+
+  .case-study-footer {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-black);
+    flex-wrap: wrap;
+  }
+
+  .footer-link {
+    display: inline-block;
+    border: 1px solid var(--color-black);
+    padding: 0.7rem 1.25rem;
+    text-decoration: none;
+    color: var(--color-black);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .footer-link:hover {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .project-case-study {
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-title {
+      font-size: 1.5rem;
+    }
+
+    .header-top {
+      flex-direction: column;
+    }
+
+    .section-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stack-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .metrics-timeline-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .case-study-footer {
+      flex-direction: column;
+    }
+
+    .footer-link {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>

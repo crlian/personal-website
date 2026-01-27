@@ -1,0 +1,76 @@
+---
+import type { ShippingMetric } from '../data/portfolio';
+
+interface Props {
+  metric: ShippingMetric;
+}
+
+const { metric } = Astro.props;
+---
+
+<div class={`shipping-metric ${metric.highlight ? 'highlight' : ''}`}>
+  <div class="metric-value">{metric.value}</div>
+  <div class="metric-label">{metric.label}</div>
+  {metric.context && <div class="metric-context">{metric.context}</div>}
+</div>
+
+<style>
+  .shipping-metric {
+    border: 1px solid var(--color-black);
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .shipping-metric:hover {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
+
+  .shipping-metric.highlight {
+    background-color: var(--color-blue);
+    color: var(--color-white);
+    border-color: var(--color-blue);
+  }
+
+  .shipping-metric.highlight:hover {
+    background-color: var(--color-black);
+  }
+
+  .metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .metric-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .metric-context {
+    font-size: 0.75rem;
+    opacity: 0.75;
+    margin-top: 0.25rem;
+  }
+
+  @media (max-width: 768px) {
+    .shipping-metric {
+      padding: 1rem;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+    }
+  }
+</style>

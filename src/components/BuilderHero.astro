@@ -1,0 +1,186 @@
+---
+import type { CurrentProject } from '../data/portfolio';
+
+interface Props {
+  favoriteStack?: string;
+  lastLaunch?: string;
+  currentProject?: CurrentProject;
+}
+
+const { favoriteStack = 'Next.js + Supabase', lastLaunch = '5 days ago', currentProject } = Astro.props;
+---
+
+<section class="builder-hero">
+  <div class="hero-content">
+    <div class="hero-label">Builder / Founder</div>
+
+    <h1 class="hero-headline">I build and ship production-ready products.</h1>
+    <p class="hero-subheadline">15 products shipped. Multiple live deployments. 2-week MVP cycles.</p>
+
+    <p class="hero-value-prop">
+      No endless planning. No theory. Just working code deployed to production.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#building" class="cta-button primary">What I'm building now</a>
+      <a href="#track-record" class="cta-button secondary">See track record</a>
+    </div>
+
+    <div class="hero-proof">
+      <div class="proof-item">
+        <span class="proof-label">LAST LAUNCH</span>
+        <span class="proof-value">{lastLaunch}</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-label">CURRENT STACK</span>
+        <span class="proof-value">{favoriteStack}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .builder-hero {
+    padding: 4rem 0;
+    margin-bottom: 0;
+  }
+
+  .hero-content {
+    max-width: 900px;
+  }
+
+  .hero-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-blue);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-headline {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .hero-subheadline {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0 0 1.5rem 0;
+    color: #333;
+  }
+
+  .hero-value-prop {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    color: #444;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-button {
+    display: inline-block;
+    border: 1px solid var(--color-black);
+    padding: 0.875rem 1.75rem;
+    text-decoration: none;
+    color: var(--color-black);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .cta-button.primary {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
+
+  .cta-button.primary:hover {
+    background-color: var(--color-white);
+    color: var(--color-black);
+  }
+
+  .cta-button.secondary {
+    background-color: var(--color-white);
+  }
+
+  .cta-button.secondary:hover {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
+
+  .hero-proof {
+    display: flex;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-black);
+  }
+
+  .proof-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+  }
+
+  .proof-item:first-child {
+    padding-right: 2rem;
+    border-right: 1px solid var(--color-black);
+  }
+
+  .proof-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #666;
+  }
+
+  .proof-value {
+    color: var(--color-black);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .builder-hero {
+      padding: 2rem 0;
+      margin-bottom: 2rem;
+    }
+
+    .hero-headline {
+      font-size: 2.5rem;
+    }
+
+    .hero-subheadline {
+      font-size: 1.5rem;
+    }
+
+    .hero-value-prop {
+      font-size: 1rem;
+    }
+
+    .hero-ctas {
+      flex-direction: column;
+    }
+
+    .cta-button {
+      width: 100%;
+      text-align: center;
+    }
+
+    .hero-proof {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+</style>

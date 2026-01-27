@@ -1,0 +1,661 @@
+---
+import type { Project } from '../data/portfolio';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+
+const statusColors: Record<string, string> = {
+  live: '#16a34a',
+  beta: '#ea580c',
+  archived: '#737373',
+  building: '#2563eb'
+};
+
+const statusLabel: Record<string, string> = {
+  live: 'LIVE',
+  beta: 'BETA',
+  archived: 'ARCHIVED',
+  building: 'BUILDING'
+};
+
+const roleLabel: Record<string, string> = {
+  founder: 'FOUNDER',
+  'co-founder': 'CO-FOUNDER',
+  builder: 'BUILDER',
+  'technical-lead': 'TECH LEAD'
+};
+
+// Get all tech stack items - prioritize primary techs
+const primaryTechs = [
+  ...(project.techStack.frontend || []).slice(0, 2),
+  ...(project.techStack.backend || []).slice(0, 1),
+  ...(project.techStack.database || []).slice(0, 1)
+];
+
+const stackDisplay = primaryTechs.slice(0, 4).join(' • ');
+---
+
+<details class="project-row-container">
+  <summary class="project-row">
+    <div class="row-expand">▸</div>
+    <div class="row-title-group">
+      <div class="row-title">{project.title}</div>
+      {project.metrics.users && (
+        <div class="row-metric">{project.metrics.users.toLocaleString()} users</div>
+      )}
+      {!project.metrics.users && project.metrics.revenue && (
+        <div class="row-metric">{project.metrics.revenue}</div>
+      )}
+    </div>
+    <div class="row-badges">
+      <span class="row-badge status" style={`background-color: ${statusColors[project.status]}`}>
+        {statusLabel[project.status]}
+      </span>
+      <span class="row-badge role">{roleLabel[project.role]}</span>
+    </div>
+    <div class="row-stack">{stackDisplay}</div>
+  </summary>
+
+  <div class="project-details">
+    <!-- Problem & Solution -->
+    <div class="details-section">
+      <div class="section-grid">
+        <div class="section-block">
+          <h4 class="details-title">Problem</h4>
+          <p class="details-text">{project.problem}</p>
+        </div>
+        <div class="section-block">
+          <h4 class="details-title">Solution</h4>
+          <p class="details-text">{project.solution}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="details-section">
+      <h4 class="details-title">Tech Stack</h4>
+      <div class="stack-grid">
+        {project.techStack.frontend && (
+          <div class="stack-column">
+            <div class="stack-category">Frontend</div>
+            <ul class="stack-list">
+              {project.techStack.frontend.map((tech) => (
+                <li>{tech}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {project.techStack.backend && (
+          <div class="stack-column">
+            <div class="stack-category">Backend</div>
+            <ul class="stack-list">
+              {project.techStack.backend.map((tech) => (
+                <li>{tech}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {project.techStack.infrastructure && (
+          <div class="stack-column">
+            <div class="stack-category">Infrastructure</div>
+            <ul class="stack-list">
+              {project.techStack.infrastructure.map((tech) => (
+                <li>{tech}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {project.techStack.database && (
+          <div class="stack-column">
+            <div class="stack-category">Database</div>
+            <ul class="stack-list">
+              {project.techStack.database.map((tech) => (
+                <li>{tech}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+
+    <!-- Architecture -->
+    <div class="details-section">
+      <h4 class="details-title">Architecture</h4>
+      <div class="architecture-content">
+        <div class="arch-item">
+          <div class="arch-label">Approach</div>
+          <p>{project.architecture.approach}</p>
+        </div>
+        <div class="arch-item">
+          <div class="arch-label">Scalability</div>
+          <p>{project.architecture.scalability}</p>
+        </div>
+        <div class="arch-item">
+          <div class="arch-label">Deployment</div>
+          <p>{project.architecture.deployment}</p>
+        </div>
+        {project.architecture.highlights.length > 0 && (
+          <div class="arch-item">
+            <div class="arch-label">Highlights</div>
+            <ul class="highlights-list">
+              {project.architecture.highlights.map((highlight) => (
+                <li>{highlight}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+
+    <!-- Metrics & Timeline -->
+    <div class="details-section">
+      <div class="metrics-timeline-grid">
+        <div class="metrics-block">
+          <h4 class="details-title">Metrics</h4>
+          <div class="metrics-list">
+            {project.metrics.users && (
+              <div class="metric-item">
+                <span class="metric-label">Users:</span>
+                <span class="metric-value">{project.metrics.users.toLocaleString()}</span>
+              </div>
+            )}
+            {project.metrics.revenue && (
+              <div class="metric-item">
+                <span class="metric-label">Revenue:</span>
+                <span class="metric-value">{project.metrics.revenue}</span>
+              </div>
+            )}
+            {project.metrics.conversion && (
+              <div class="metric-item">
+                <span class="metric-label">Conversion:</span>
+                <span class="metric-value">{project.metrics.conversion}</span>
+              </div>
+            )}
+            {project.metrics.growth && (
+              <div class="metric-item">
+                <span class="metric-label">Growth:</span>
+                <span class="metric-value">{project.metrics.growth}</span>
+              </div>
+            )}
+            {project.metrics.engagement && (
+              <div class="metric-item">
+                <span class="metric-label">Engagement:</span>
+                <span class="metric-value">{project.metrics.engagement}</span>
+              </div>
+            )}
+            {project.metrics.performance && (
+              <div class="metric-item">
+                <span class="metric-label">Performance:</span>
+                <span class="metric-value">{project.metrics.performance}</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div class="timeline-block">
+          <h4 class="details-title">Timeline</h4>
+          <div class="timeline-list">
+            <div class="timeline-item">
+              <span class="timeline-label">MVP:</span>
+              <span class="timeline-value">{project.timeline.mvpDuration}</span>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-label">Total:</span>
+              <span class="timeline-value">{project.timeline.totalDuration}</span>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-label">Launched:</span>
+              <span class="timeline-value">{new Date(project.timeline.launchDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Learnings -->
+    {(project.learnings.technical.length > 0 || project.learnings.business.length > 0) && (
+      <div class="details-section">
+        <h4 class="details-title">What I Learned</h4>
+        <div class="learnings-content">
+          {project.learnings.technical.length > 0 && (
+            <div class="learning-category">
+              <h5 class="learning-category-title">Technical</h5>
+              <ul class="learning-list">
+                {project.learnings.technical.map((learning) => (
+                  <li>{learning}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {project.learnings.business.length > 0 && (
+            <div class="learning-category">
+              <h5 class="learning-category-title">Business / Product</h5>
+              <ul class="learning-list">
+                {project.learnings.business.map((learning) => (
+                  <li>{learning}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+    )}
+
+    <!-- Links -->
+    {(project.demoUrl || project.githubUrl) && (
+      <div class="details-links">
+        {project.demoUrl && (
+          <a href={project.demoUrl} class="details-link" target="_blank" rel="noopener noreferrer">
+            View Live Demo →
+          </a>
+        )}
+        {project.githubUrl && (
+          <a href={project.githubUrl} class="details-link" target="_blank" rel="noopener noreferrer">
+            View on GitHub →
+          </a>
+        )}
+      </div>
+    )}
+  </div>
+</details>
+
+<style>
+  .project-row-container {
+    border: 1px solid var(--color-black);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-row-container[open] .project-row {
+    border-bottom: 1px solid var(--color-black);
+  }
+
+  .project-row-container[open] .row-expand {
+    transform: rotate(90deg);
+  }
+
+  /* Row Summary */
+  .project-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    background-color: var(--color-white);
+    transition: background-color 0.2s ease;
+  }
+
+  .project-row:hover {
+    background-color: #f9f9f9;
+  }
+
+  .project-row::-webkit-details-marker {
+    display: none;
+  }
+
+  .row-expand {
+    flex-shrink: 0;
+    width: 20px;
+    font-weight: bold;
+    transition: transform 0.2s ease;
+    color: var(--color-blue);
+  }
+
+  .row-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-grow: 0;
+    min-width: 150px;
+  }
+
+  .row-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .row-metric {
+    font-size: 0.75rem;
+    color: #666;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .row-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+
+  .row-badge {
+    display: inline-block;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border: 1px solid;
+  }
+
+  .row-badge.status {
+    color: var(--color-white);
+    border-color: currentColor;
+  }
+
+  .row-badge.role {
+    border-color: var(--color-black);
+    color: var(--color-black);
+  }
+
+  .row-stack {
+    flex: 1;
+    font-size: 0.8rem;
+    color: #666;
+    font-family: 'Monaco', 'Courier New', monospace;
+    text-align: right;
+  }
+
+  /* Details Section */
+  .project-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background-color: #fafafa;
+    border-top: 1px solid #eee;
+  }
+
+  .details-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .details-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .details-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+    color: #444;
+  }
+
+  .section-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .section-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Stack Grid */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+  }
+
+  .stack-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .stack-category {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #666;
+  }
+
+  .stack-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .stack-list li {
+    font-size: 0.8rem;
+    color: #555;
+  }
+
+  /* Architecture */
+  .architecture-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .arch-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .arch-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #666;
+  }
+
+  .arch-item p {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  .highlights-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .highlights-list li {
+    font-size: 0.85rem;
+    padding-left: 1rem;
+    position: relative;
+    color: #444;
+  }
+
+  .highlights-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-blue);
+    font-weight: bold;
+    font-size: 0.75rem;
+  }
+
+  /* Metrics & Timeline */
+  .metrics-timeline-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .metrics-block,
+  .timeline-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .metrics-list,
+  .timeline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .metric-item,
+  .timeline-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: var(--color-white);
+    border: 1px solid #ddd;
+    font-size: 0.85rem;
+  }
+
+  .metric-label,
+  .timeline-label {
+    font-weight: 600;
+    color: #666;
+  }
+
+  .metric-value,
+  .timeline-value {
+    font-weight: 700;
+    color: var(--color-black);
+  }
+
+  /* Learnings */
+  .learnings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .learning-category {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .learning-category-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #666;
+    margin: 0;
+  }
+
+  .learning-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .learning-list li {
+    font-size: 0.85rem;
+    padding-left: 1rem;
+    position: relative;
+    color: #444;
+    line-height: 1.4;
+  }
+
+  .learning-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--color-blue);
+  }
+
+  /* Links */
+  .details-links {
+    display: flex;
+    gap: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #ddd;
+    flex-wrap: wrap;
+  }
+
+  .details-link {
+    display: inline-block;
+    border: 1px solid var(--color-black);
+    padding: 0.6rem 1rem;
+    text-decoration: none;
+    color: var(--color-black);
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+  }
+
+  .details-link:hover {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .row-stack {
+      display: none;
+    }
+
+    .metrics-timeline-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .project-row {
+      gap: 0.75rem;
+      padding: 0.75rem;
+    }
+
+    .row-title-group {
+      min-width: auto;
+      flex: 1;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+
+    .row-badges {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .project-details {
+      padding: 1rem;
+    }
+
+    .stack-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .details-links {
+      flex-direction: column;
+    }
+
+    .details-link {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
