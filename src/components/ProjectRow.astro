@@ -36,6 +36,27 @@ const primaryTechs = [
 ];
 
 const stackDisplay = primaryTechs.slice(0, 4).join(' • ');
+
+const allStackItems = [
+  ...(project.techStack.frontend || []),
+  ...(project.techStack.backend || []),
+  ...(project.techStack.infrastructure || []),
+  ...(project.techStack.database || [])
+].filter(Boolean);
+
+const stackLine = allStackItems.join(', ');
+
+const highlightItems = [
+  ...project.architecture.highlights,
+  `Approach: ${project.architecture.approach}`,
+  `Scalability: ${project.architecture.scalability}`,
+  `Deployment: ${project.architecture.deployment}`
+].filter(Boolean);
+
+const keyLearnings = [
+  ...project.learnings.business,
+  ...project.learnings.technical
+].filter(Boolean).slice(0, 3);
 ---
 
 <details class="project-row-container">
@@ -74,80 +95,16 @@ const stackDisplay = primaryTechs.slice(0, 4).join(' • ');
       </div>
     </div>
 
-    <!-- Tech Stack -->
+    <!-- Highlights -->
     <div class="details-section">
-      <h4 class="details-title">Tech Stack</h4>
-      <div class="stack-grid">
-        {project.techStack.frontend && (
-          <div class="stack-column">
-            <div class="stack-category">Frontend</div>
-            <ul class="stack-list">
-              {project.techStack.frontend.map((tech) => (
-                <li>{tech}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {project.techStack.backend && (
-          <div class="stack-column">
-            <div class="stack-category">Backend</div>
-            <ul class="stack-list">
-              {project.techStack.backend.map((tech) => (
-                <li>{tech}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {project.techStack.infrastructure && (
-          <div class="stack-column">
-            <div class="stack-category">Infrastructure</div>
-            <ul class="stack-list">
-              {project.techStack.infrastructure.map((tech) => (
-                <li>{tech}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {project.techStack.database && (
-          <div class="stack-column">
-            <div class="stack-category">Database</div>
-            <ul class="stack-list">
-              {project.techStack.database.map((tech) => (
-                <li>{tech}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    </div>
-
-    <!-- Architecture -->
-    <div class="details-section">
-      <h4 class="details-title">Architecture</h4>
-      <div class="architecture-content">
-        <div class="arch-item">
-          <div class="arch-label">Approach</div>
-          <p>{project.architecture.approach}</p>
-        </div>
-        <div class="arch-item">
-          <div class="arch-label">Scalability</div>
-          <p>{project.architecture.scalability}</p>
-        </div>
-        <div class="arch-item">
-          <div class="arch-label">Deployment</div>
-          <p>{project.architecture.deployment}</p>
-        </div>
-        {project.architecture.highlights.length > 0 && (
-          <div class="arch-item">
-            <div class="arch-label">Highlights</div>
-            <ul class="highlights-list">
-              {project.architecture.highlights.map((highlight) => (
-                <li>{highlight}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      <h4 class="details-title">Highlights</h4>
+      {highlightItems.length > 0 && (
+        <ul class="highlights-list">
+          {highlightItems.map((highlight) => (
+            <li>{highlight}</li>
+          ))}
+        </ul>
+      )}
     </div>
 
     <!-- Metrics & Timeline -->
@@ -168,22 +125,10 @@ const stackDisplay = primaryTechs.slice(0, 4).join(' • ');
                 <span class="metric-value">{project.metrics.revenue}</span>
               </div>
             )}
-            {project.metrics.conversion && (
-              <div class="metric-item">
-                <span class="metric-label">Conversion:</span>
-                <span class="metric-value">{project.metrics.conversion}</span>
-              </div>
-            )}
             {project.metrics.growth && (
               <div class="metric-item">
                 <span class="metric-label">Growth:</span>
                 <span class="metric-value">{project.metrics.growth}</span>
-              </div>
-            )}
-            {project.metrics.engagement && (
-              <div class="metric-item">
-                <span class="metric-label">Engagement:</span>
-                <span class="metric-value">{project.metrics.engagement}</span>
               </div>
             )}
             {project.metrics.performance && (
@@ -199,10 +144,6 @@ const stackDisplay = primaryTechs.slice(0, 4).join(' • ');
           <h4 class="details-title">Timeline</h4>
           <div class="timeline-list">
             <div class="timeline-item">
-              <span class="timeline-label">MVP:</span>
-              <span class="timeline-value">{project.timeline.mvpDuration}</span>
-            </div>
-            <div class="timeline-item">
               <span class="timeline-label">Total:</span>
               <span class="timeline-value">{project.timeline.totalDuration}</span>
             </div>
@@ -216,30 +157,23 @@ const stackDisplay = primaryTechs.slice(0, 4).join(' • ');
     </div>
 
     <!-- Learnings -->
-    {(project.learnings.technical.length > 0 || project.learnings.business.length > 0) && (
+    {keyLearnings.length > 0 && (
       <div class="details-section">
-        <h4 class="details-title">What I Learned</h4>
-        <div class="learnings-content">
-          {project.learnings.technical.length > 0 && (
-            <div class="learning-category">
-              <h5 class="learning-category-title">Technical</h5>
-              <ul class="learning-list">
-                {project.learnings.technical.map((learning) => (
-                  <li>{learning}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {project.learnings.business.length > 0 && (
-            <div class="learning-category">
-              <h5 class="learning-category-title">Business / Product</h5>
-              <ul class="learning-list">
-                {project.learnings.business.map((learning) => (
-                  <li>{learning}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+        <h4 class="details-title">Key Learnings</h4>
+        <ul class="learning-list">
+          {keyLearnings.map((learning) => (
+            <li>{learning}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <!-- Stack -->
+    {stackLine && (
+      <div class="details-section">
+        <div class="stack-line">
+          <span class="stack-line-label">Stack:</span>
+          <span class="stack-line-value">{stackLine}</span>
         </div>
       </div>
     )}
@@ -404,69 +338,6 @@ const stackDisplay = primaryTechs.slice(0, 4).join(' • ');
     gap: 0.5rem;
   }
 
-  /* Stack Grid */
-  .stack-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-  }
-
-  .stack-column {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .stack-category {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: #666;
-  }
-
-  .stack-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-
-  .stack-list li {
-    font-size: 0.8rem;
-    color: #555;
-  }
-
-  /* Architecture */
-  .architecture-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .arch-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-
-  .arch-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: #666;
-  }
-
-  .arch-item p {
-    margin: 0;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: #444;
-  }
-
   .highlights-list {
     list-style: none;
     margin: 0;
@@ -537,27 +408,6 @@ const stackDisplay = primaryTechs.slice(0, 4).join(' • ');
   }
 
   /* Learnings */
-  .learnings-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .learning-category {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .learning-category-title {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: #666;
-    margin: 0;
-  }
-
   .learning-list {
     list-style: none;
     margin: 0;
@@ -580,6 +430,26 @@ const stackDisplay = primaryTechs.slice(0, 4).join(' • ');
     position: absolute;
     left: 0;
     color: var(--color-blue);
+  }
+
+  .stack-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: #444;
+    line-height: 1.5;
+  }
+
+  .stack-line-label {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #666;
+  }
+
+  .stack-line-value {
+    font-family: 'Monaco', 'Courier New', monospace;
   }
 
   /* Links */
@@ -643,10 +513,6 @@ const stackDisplay = primaryTechs.slice(0, 4).join(' • ');
 
     .project-details {
       padding: 1rem;
-    }
-
-    .stack-grid {
-      grid-template-columns: repeat(2, 1fr);
     }
 
     .details-links {

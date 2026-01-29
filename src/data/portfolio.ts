@@ -86,7 +86,7 @@ export const currentlyBuilding: CurrentProject = {
   name: 'AI Dispatcher',
   description: 'AI orchestration layer that automatically routes tasks to optimal agents based on complexity, cost, and capability.',
   status: 'Week 2 - Building real-time AI capacity management',
-  stack: ['Node.js', 'WebSockets', 'Claude API', 'OpenAI', 'Redis', 'React', 'TypeScript', 'Docker'],
+  stack: ['Claude API', 'OpenAI', 'Go', 'CLI'],
   launchGoal: 'Live by end of month'
 };
 
@@ -152,7 +152,7 @@ export const projects: Project[] = [
       growth: '1 analysis/day, 8 refinements/day'
     },
     timeline: {
-      mvpDuration: '16 days',
+      mvpDuration: '21 days',
       totalDuration: '3 months',
       launchDate: '2025-11-04'
     },
@@ -204,7 +204,7 @@ export const projects: Project[] = [
       growth: 'Greedy settlement algo'
     },
     timeline: {
-      mvpDuration: '7 days',
+      mvpDuration: '1 month',
       totalDuration: '14 days',
       launchDate: '2025-07-22'
     },
@@ -307,7 +307,7 @@ export const projects: Project[] = [
       engagement: 'Daily personal use'
     },
     timeline: {
-      mvpDuration: 'A few days',
+      mvpDuration: '2 days',
       totalDuration: 'Ongoing',
       launchDate: '2024-08-15'
     },
@@ -357,7 +357,7 @@ export const projects: Project[] = [
       engagement: 'Recruiter-focused, scannable layout'
     },
     timeline: {
-      mvpDuration: '7 days',
+      mvpDuration: '1 day',
       totalDuration: '2 weeks',
       launchDate: '2026-01-28'
     },
