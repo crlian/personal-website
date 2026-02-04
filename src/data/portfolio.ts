@@ -65,7 +65,7 @@ export interface Project {
 // Shipping metrics
 export interface ShippingMetric {
   value: string;
-  label: string;
+  label?: string;
   context?: string;
   highlight?: boolean;
 }
@@ -98,9 +98,8 @@ export const shippingMetrics: ShippingMetric[] = [
     highlight: true
   },
   {
-    value: '14 days',
-    label: 'Avg MVP Time',
-    context: 'MVP to live',
+    value: 'Product lifecycle',
+    context: 'Idea → launch → upkeep',
     highlight: true
   },
   {

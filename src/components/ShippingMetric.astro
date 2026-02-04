@@ -10,7 +10,7 @@ const { metric } = Astro.props;
 
 <div class={`shipping-metric ${metric.highlight ? 'highlight' : ''}`}>
   <div class="metric-value">{metric.value}</div>
-  <div class="metric-label">{metric.label}</div>
+  {metric.label && <div class="metric-label">{metric.label}</div>}
   {metric.context && <div class="metric-context">{metric.context}</div>}
 </div>
 
@@ -42,7 +42,7 @@ const { metric } = Astro.props;
   }
 
   .metric-value {
-    font-size: 2.5rem;
+    font-size: 1.9rem;
     font-weight: 700;
     line-height: 1;
   }
